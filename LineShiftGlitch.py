@@ -4,7 +4,8 @@ img = cv2.imread('demo.jpg')
 img = cv2.resize(img,(512,512))
 frame = img.copy()
 while True:
-    for i in range(0,100):
+    number_line = random.randint(100,500)
+    for i in range(0,number_line):
         n = random.randint(0,img.shape[0] - 1)
         shift_n = random.randint(0,20)
         color_channel = random.randint(0,2)
