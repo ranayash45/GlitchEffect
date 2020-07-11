@@ -1,7 +1,10 @@
 import cv2
 import random
 img = cv2.imread('demo.jpg')
-img = cv2.resize(img,(512,512))
+width = 500
+height = round(width / img.shape[0] * img.shape[1])
+img = cv2.resize(img,(height,width))
+
 frame = img.copy()
 while True:
     number_line = random.randint(100,500)
@@ -10,5 +13,6 @@ while True:
         shift_n = random.randint(0,20)
         color_channel = random.randint(0,2)
         frame[n,:frame.shape[1] - shift_n,color_channel] = img[n,shift_n:,color_channel]
+    cv2.imwrite('LineShiftGlitch.jpg',frame)
     cv2.imshow('demo',frame)
     cv2.waitKey(50)
