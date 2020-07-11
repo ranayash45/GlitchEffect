@@ -3,22 +3,28 @@ import random
 import os
 import numpy as np
 img = cv2.imread('demo.jpg')
-frame = cv2.resize(img,(512,512))
+width = 500
+height = round(width / img.shape[0] * img.shape[1])
+frame = cv2.resize(img,(height,width))
 isLine = False
+noisex = 125
+noisey = 125
+noisechannel = 3
 while True:
     data = frame.copy()
-    noiseM1 = bytearray(os.urandom(675))
+    noiseM1 = bytearray(os.urandom(noisex * noisey * noisechannel))
     noiseM1 = np.array(noiseM1,np.ubyte)
-    noiseM1 = noiseM1.reshape(15,15,3)
-    noiseM1 = cv2.resize(noiseM1,(512,512))
-    box = np.zeros((512,512,3),dtype=np.ubyte)
+    noiseM1 = noiseM1.reshape(noisey,noisex,noisechannel)
+    noiseM1 = cv2.resize(noiseM1,(height,width))
+    box = np.zeros((width,height,3),dtype=np.ubyte)
+    #print(box.shape,frame.shape)
     if isLine:
         for i in range(0,100):
             line = random.randint(0,frame.shape[0] - 1)    
             data[line,:,:] = noiseM1[line,:,:]
     else:
-        box[:,:,2] = (data[:,:,0] + noiseM1[:,:,1]) / 2
-        box = np.asarray((np.asarray(box,np.int)  + np.asarray(frame,np.int)) / 2 , np.ubyte)
+        box = np.asarray((np.asarray(noiseM1,np.int) + np.asarray(frame,np.int) * 2) / 3, np.ubyte)
         
+    cv2.imwrite('MatrixGlitch.jpg',box)
     cv2.imshow('demo',box)
     cv2.waitKey(50)
