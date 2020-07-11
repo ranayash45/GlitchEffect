@@ -4,8 +4,8 @@ import os
 import numpy as np
 img = cv2.imread('demo.jpg')
 width = 500
-height = round(width / img.shape[0] * img.shape[1])
-frame = cv2.resize(img,(height,width))
+height = round(width / img.shape[1] * img.shape[0])
+frame = cv2.resize(img,(width,height))
 isLine = False
 noisex = 125
 noisey = 125
@@ -15,7 +15,7 @@ while True:
     noiseM1 = bytearray(os.urandom(noisex * noisey * noisechannel))
     noiseM1 = np.array(noiseM1,np.ubyte)
     noiseM1 = noiseM1.reshape(noisey,noisex,noisechannel)
-    noiseM1 = cv2.resize(noiseM1,(height,width))
+    noiseM1 = cv2.resize(noiseM1,(width,height))
     box = np.zeros((width,height,3),dtype=np.ubyte)
     #print(box.shape,frame.shape)
     if isLine:

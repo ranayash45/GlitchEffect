@@ -3,8 +3,8 @@ import time
 import random
 img = cv2.imread(r'demo.jpg')
 width = 500
-height = round(width / img.shape[0] * img.shape[1])
-img = cv2.resize(img,(height,width))
+height = round(width / img.shape[1] * img.shape[0])
+img = cv2.resize(img,(width,height))
 frame = img.copy()
 n = 5
 m = 5
